@@ -23,4 +23,28 @@ public class BookInfoDTO {
     private String source;
     private String classification;
     private String location;
+
+    public static BookInfoDTO createBookInfoDTO(
+            String title,
+            String description,
+            String author,
+            String isbn,
+            LocalDate publicationDate,
+            String source,
+            String classification,
+            String location) {
+
+        return BookInfoDTO
+                .builder()
+                .title(title)
+                .description(description)
+                .author(author)
+                .isbn(isbn)
+                .publicationDate(publicationDate)
+                .source(source)
+                .classification(classification)
+                .location(location)
+                .build();
+
+    }
 }
