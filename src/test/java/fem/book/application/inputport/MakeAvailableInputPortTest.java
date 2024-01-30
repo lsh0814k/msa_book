@@ -1,5 +1,6 @@
 package fem.book.application.inputport;
 
+import fem.book.BookFactory;
 import fem.book.application.outputport.BookOutputPort;
 import fem.book.domain.model.Book;
 import fem.book.domain.model.vo.BookStatus;
@@ -22,27 +23,16 @@ class MakeAvailableInputPortTest {
 
     @Autowired private MakeAvailableInputPort makeAvailableInputPort;
     @Autowired private BookOutputPort bookOutputPort;
+    @Autowired private BookFactory bookFactory;
 
     @Test
     @DisplayName("대여 가능 상태로 변경")
     void available() {
-        Book book = createBook();
+        Book book = bookFactory.createBook();
         bookOutputPort.save(book);
 
         BookOutputDTO bookOutputDTO = makeAvailableInputPort.available(book.getNo());
 
         assertThat(bookOutputDTO.getBookStatus()).isEqualTo(BookStatus.AVAILABLE.toString());
-    }
-
-    private Book createBook() {
-        return Book.enterBook(
-                "노인과 바다",
-                "헤밍웨이",
-                "202401301513",
-                "어니스트 헤밍웨이가 1952년에 발표한 중편소설",
-                LocalDate.of(1954, 1, 1),
-                Source.DONATION,
-                Classfication.LITERATURE,
-                Location.PANGYO);
     }
 }

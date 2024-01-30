@@ -1,5 +1,6 @@
 package fem.book.application.inputport;
 
+import fem.book.BookFactory;
 import fem.book.application.outputport.BookOutputPort;
 import fem.book.domain.model.Book;
 import fem.book.domain.model.vo.Classfication;
@@ -23,6 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 class InquiryInputPortTest {
     @Autowired private BookOutputPort bookOutputPort;
     @Autowired private InquiryInputPort inquiryInputPort;
+    @Autowired private BookFactory bookFactory;
 
     @Test
     @DisplayName("도서 찾기_존재 하지 않는 도서")
@@ -36,22 +38,10 @@ class InquiryInputPortTest {
     @Test
     @DisplayName("도서 찾기")
     void findBook_exist() {
-        Book book = createBook();
+        Book book = bookFactory.createBook();
         Book savedBook = bookOutputPort.save(book);
 
         BookOutputDTO bookOutputDTO = inquiryInputPort.findBook(savedBook.getNo());
         assertThat(bookOutputDTO.getBookNo()).isEqualTo(savedBook.getNo());
-    }
-
-    private Book createBook() {
-        return Book.enterBook(
-                "노인과 바다",
-                "헤밍웨이",
-                "202401301513",
-                "어니스트 헤밍웨이가 1952년에 발표한 중편소설",
-                LocalDate.of(1954, 1, 1),
-                Source.DONATION,
-                Classfication.LITERATURE,
-                Location.PANGYO);
     }
 }

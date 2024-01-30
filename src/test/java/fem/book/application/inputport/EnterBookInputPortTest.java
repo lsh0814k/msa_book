@@ -1,5 +1,6 @@
 package fem.book.application.inputport;
 
+import fem.book.BookInfoDTOFactory;
 import fem.book.application.outputport.BookOutputPort;
 import fem.book.domain.model.vo.BookStatus;
 import fem.book.domain.model.vo.Classfication;
@@ -26,24 +27,10 @@ class EnterBookInputPortTest {
     @Test
     @DisplayName("도서 입고")
     void enterBook() {
-        BookInfoDTO bookInfoDTO = createBookInfoDTO();
+        BookInfoDTO bookInfoDTO = BookInfoDTOFactory.createBookInfoDTO();
         BookOutputDTO bookOutputDTO = enterBookInputPort.enterBook(bookInfoDTO);
 
         assertThat(bookOutputDTO.getBookNo()).isNotNull();
         assertThat(bookOutputDTO.getBookStatus()).isEqualTo(BookStatus.ENTERED.toString());
-    }
-
-    private BookInfoDTO createBookInfoDTO() {
-        return BookInfoDTO.createBookInfoDTO(
-                "노인과 바다",
-                "헤밍웨이",
-                "202401301513",
-                "어니스트 헤밍웨이가 1952년에 발표한 중편소설",
-                LocalDate.of(1954, 1, 1),
-                Source.DONATION.toString(),
-                Classfication.LITERATURE.toString(),
-                Location.PANGYO.toString()
-        );
-
     }
 }

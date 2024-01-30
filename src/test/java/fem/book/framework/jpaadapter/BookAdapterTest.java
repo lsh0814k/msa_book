@@ -1,5 +1,6 @@
 package fem.book.framework.jpaadapter;
 
+import fem.book.BookFactory;
 import fem.book.application.outputport.BookOutputPort;
 import fem.book.domain.model.Book;
 import fem.book.domain.model.vo.Classfication;
@@ -21,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class BookAdapterTest {
     @Autowired private BookAdapter bookAdapter;
     @Autowired private BookOutputPort bookOutputPort;
+    @Autowired private BookFactory bookFactory;
 
     @Test
     @DisplayName("도서 찾기_존재하지 않는 도서")
@@ -34,7 +36,7 @@ class BookAdapterTest {
     @Test
     @DisplayName("도서 찾기")
     void findByNo() {
-        Book book = createBook();
+        Book book = bookFactory.createBook();
         Book savedBook = bookOutputPort.save(book);
         Book findBook = bookAdapter.findByNo(savedBook.getNo());
 
@@ -44,22 +46,10 @@ class BookAdapterTest {
     @Test
     @DisplayName("도서 입고")
     void save() {
-        Book book = createBook();
+        Book book = bookFactory.createBook();
         Book saved = bookAdapter.save(book);
         Book findBook = bookOutputPort.findByNo(saved.getNo());
 
         assertThat(findBook).isNotNull();
-    }
-
-    private Book createBook() {
-        return Book.enterBook(
-                "노인과 바다",
-                "헤밍웨이",
-                "202401301513",
-                "어니스트 헤밍웨이가 1952년에 발표한 중편소설",
-                LocalDate.of(1954, 1, 1),
-                Source.DONATION,
-                Classfication.LITERATURE,
-                Location.PANGYO);
     }
 }

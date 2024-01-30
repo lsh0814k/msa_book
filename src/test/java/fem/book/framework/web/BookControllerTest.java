@@ -1,6 +1,8 @@
 package fem.book.framework.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fem.book.BookFactory;
+import fem.book.BookInfoDTOFactory;
 import fem.book.application.outputport.BookOutputPort;
 import fem.book.domain.model.Book;
 import fem.book.domain.model.vo.Classfication;
@@ -28,11 +30,12 @@ class BookControllerTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
     @Autowired private BookOutputPort bookOutputPort;
+    @Autowired private BookFactory bookFactory;
 
     @Test
     @DisplayName("도서 입고")
     void enterBook() throws Exception {
-        BookInfoDTO bookInfoDTO = createBookInfoDTO();
+        BookInfoDTO bookInfoDTO = BookInfoDTOFactory.createBookInfoDTO();
         mockMvc.perform(post("/api/books")
                 .contentType(APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(bookInfoDTO)))
@@ -45,36 +48,11 @@ class BookControllerTest {
     @Test
     @DisplayName("도서 조회")
     void findBook() throws Exception {
-        Book saved = bookOutputPort.save(createBook());
+        Book saved = bookOutputPort.save(bookFactory.createBook());
 
         mockMvc.perform(get("/api/books/" + saved.getNo())
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.bookNo").value(saved.getNo()));
-    }
-
-    private BookInfoDTO createBookInfoDTO() {
-        return BookInfoDTO.createBookInfoDTO(
-                "노인과 바다",
-                "헤밍웨이",
-                "202401301513",
-                "어니스트 헤밍웨이가 1952년에 발표한 중편소설",
-                LocalDate.of(1954, 1, 1),
-                Source.DONATION.toString(),
-                Classfication.LITERATURE.toString(),
-                Location.PANGYO.toString()
-        );
-    }
-
-    private Book createBook() {
-        return Book.enterBook(
-                "노인과 바다",
-                "헤밍웨이",
-                "202401301513",
-                "어니스트 헤밍웨이가 1952년에 발표한 중편소설",
-                LocalDate.of(1954, 1, 1),
-                Source.DONATION,
-                Classfication.LITERATURE,
-                Location.PANGYO);
     }
 }
