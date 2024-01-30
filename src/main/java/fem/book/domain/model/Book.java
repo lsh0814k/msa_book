@@ -1,6 +1,6 @@
-package fem.book.domain.mode;
+package fem.book.domain.model;
 
-import fem.book.domain.mode.vo.*;
+import fem.book.domain.model.vo.*;
 import jakarta.persistence.*;
 import lombok.*;
 

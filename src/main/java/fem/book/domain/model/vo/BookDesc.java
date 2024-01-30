@@ -1,4 +1,4 @@
-package fem.book.domain.mode.vo;
+package fem.book.domain.model.vo;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Enumerated;
