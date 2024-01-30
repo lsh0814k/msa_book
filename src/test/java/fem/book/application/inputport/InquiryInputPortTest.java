@@ -9,6 +9,7 @@ import fem.book.domain.model.vo.Source;
 import fem.book.framework.jpaadapter.BookRepository;
 import fem.book.framework.web.dto.BookOutputDTO;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ class InquiryInputPortTest {
     @Autowired private BookOutputPort bookOutputPort;
     @Autowired private InquiryInputPort inquiryInputPort;
     @Autowired private BookFactory bookFactory;
+    @Autowired private BookRepository bookRepository;
+
+    @BeforeEach
+    void init() {
+        bookRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("도서 찾기_존재 하지 않는 도서")

@@ -6,6 +6,7 @@ import fem.book.domain.model.Book;
 import fem.book.domain.model.vo.Classfication;
 import fem.book.domain.model.vo.Location;
 import fem.book.domain.model.vo.Source;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ class BookAdapterTest {
     @Autowired private BookAdapter bookAdapter;
     @Autowired private BookOutputPort bookOutputPort;
     @Autowired private BookFactory bookFactory;
+    @Autowired BookRepository bookRepository;
+
+    @BeforeEach
+    void init() {
+        bookRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("도서 찾기_존재하지 않는 도서")
