@@ -15,7 +15,7 @@ import static lombok.AccessLevel.*;
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PRIVATE)
 @EqualsAndHashCode(of = "no")
-public class Book {
+public class Book extends BaseTime {
     @Id @GeneratedValue
     private Long no;
     private String title;
