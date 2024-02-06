@@ -21,6 +21,10 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  kafka:
+    consumer:
+      group-id: book
+
 server:
   port: 8082
 
